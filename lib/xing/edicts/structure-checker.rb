@@ -2,7 +2,7 @@ require 'xing-root'
 require 'find'
 require 'edict'
 
-module Xing::Tasks
+module Xing::Edicts
   class StructureChecker < Edict::Rule
     include Find
 

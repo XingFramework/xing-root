@@ -1,8 +1,9 @@
 require 'xing/edicts'
+require 'xing/tasks/tasklib'
 
 module Xing
   module Tasks
-    class Develop < Mattock::Tasklib
+    class Develop < Tasklib
       DEFAULT_RELOAD_PORT = 35729
       DEFAULT_RAILS_PORT  = 3000
       DEFAULT_MOBILE_PORT = 9000
@@ -48,16 +49,6 @@ module Xing
         self.rails_server_port  = DEFAULT_RAILS_PORT  + port_offset if field_unset?(:rails_server_port)
         self.mobile_server_port = DEFAULT_MOBILE_PORT + port_offset if field_unset?(:mobile_server_port)
         self.static_server_port = DEFAULT_STATIC_PORT + port_offset if field_unset?(:static_server_port)
-      end
-
-      def edict_task(name, klass, &block)
-        edict = klass.new do |eddie|
-          copy_to(eddie)
-          yield eddie if block_given?
-        end
-        task name do
-          edict.enact
-        end
       end
 
       def define
