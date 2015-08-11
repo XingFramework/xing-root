@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     xing-root (0.0.1)
+      caliph (> 0)
       edict (> 0)
 
 PATH

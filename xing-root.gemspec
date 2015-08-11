@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.rdoc_options	+= ["--title", "#{spec.name}-#{spec.version} Documentation"]
 
   spec.add_dependency("edict", "> 0")
+  spec.add_dependency("caliph", "> 0")
 
   #spec.post_install_message = "Thanks for installing my gem!"
 end
