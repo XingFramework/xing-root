@@ -3,11 +3,15 @@ require 'find'
 require 'edict'
 
 module Xing::Tasks
-  class StructureCheck < Edict::Rule
+  class StructureChecker < Edict::Rule
     include Find
 
+    class Error < ::StandardError
+    end
+
     setting :dir
-    nil_field :context_from_hash
+    nil_field :context_hash
+    setting :out_stream, $stdout
 
     def setup
       @problems = []
@@ -42,11 +46,11 @@ module Xing::Tasks
         @problems.group_by do |problem|
           problem.file
         end.each do |file, problems|
-          puts "In #{file}"
-          problems.each{|prob| puts "  " + prob.to_s}
-          puts
+          out_stream.puts "In #{file}"
+          problems.each{|prob| out_stream.puts "  " + prob.to_s}
+          out_stream.puts
         end
-        fail
+        raise Error, "Problems found in ECMAScript structure"
       end
     end
 
@@ -59,7 +63,7 @@ module Xing::Tasks
       attr_reader :escape_clause_list
     end
 
-    class Problem < Struct.new(:msg, :line, :lineno, :file)
+    class Problem < ::Struct.new(:msg, :line, :lineno, :file)
       def to_s
         "#{lineno}:<#{line}>: #{msg}"
       end
