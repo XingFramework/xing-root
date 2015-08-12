@@ -1,4 +1,6 @@
 require 'xing/tasks/tasklib'
+require 'xing/edicts/clean-run'
+require 'xing/edicts/structure-checker'
 
 module Xing
   module Tasks
@@ -8,11 +10,11 @@ module Xing
 
       def define
         in_namespace do
-          edict_task :npm_install, Edict::CleanRun do |ni|
+          edict_task :npm_install, Edicts::CleanRun do |ni|
             ni.shell_cmd = %w{npm install}
           end
 
-          edict_task :bundle_install, Edict::CleanRun do |bi|
+          edict_task :bundle_install, Edicts::CleanRun do |bi|
             bi.shell_cmd = %w{bundle check || bundle install}
           end
 
