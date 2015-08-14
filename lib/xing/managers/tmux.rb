@@ -5,10 +5,15 @@ module Xing
     class Tmux
       include Caliph::CommandLineDSL
 
-      def initialize
+      MINIMUM_WINDOW_COLUMNS = 75
+      MINIMUM_WINDOW_LINES = 18
+
+      def initialize(shell=nil)
+        @shell = shell || Tmux.shell
         @first_child = true
         @extra_config_path='~/.lrd-dev-tmux.conf'
       end
+      attr_reader :shell
 
       class << self
         def shell
@@ -19,11 +24,6 @@ module Xing
           shell.run("which", "tmux").succeeds?
         end
       end
-
-      def shell
-        @shell ||= Tmux.shell
-      end
-      attr_writer :shell
 
       def tmux_exe
         @tmux_exe ||= shell.run("which", "tmux").stdout.chomp
@@ -80,10 +80,7 @@ module Xing
 
     class TmuxPane < Tmux
 
-      MINIMUM_WINDOW_COLUMNS = 75
-      MINIMUM_WINDOW_LINES = 18
-
-      def initialize
+      def initialize(shell=nil)
         super
         @window_name = "Dev Servers"
         @pane_count = 0
