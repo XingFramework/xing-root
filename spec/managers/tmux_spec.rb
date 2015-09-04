@@ -49,6 +49,7 @@ describe Xing::Managers::TmuxPane do
   end
 
   before :each do
+    allow(tmux_pane).to receive(:existing?).and_return(false, true)
     allow(list_result).to receive(:stdout).and_return("nothing important")
     allow(new_session_result).to receive(:stdout).and_return("nothing important")
     allow(new_session_command).to receive(:string_format).and_return("")
@@ -59,8 +60,8 @@ describe Xing::Managers::TmuxPane do
     allow(mock_shell).to receive(:run).with(list_cmd).and_return(list_result)
   end
 
-  it "first child gets a new window" do
-    allow(tmux_pane).to receive(:cmd).with(tmux_path, match(%r{\Anew-window})).and_return(new_session_command)
+  it "first child gets a new session" do
+    allow(tmux_pane).to receive(:cmd).with(tmux_path, match(%r{\Anew-session})).and_return(new_session_command)
 
     expect(mock_shell).to receive(:run).with(new_session_command).and_return(new_session_result)
     tmux_pane.start_child("something", task_name)
@@ -69,7 +70,7 @@ describe Xing::Managers::TmuxPane do
   describe "second child" do
     before :each do
       # create first child
-      allow(tmux_pane).to receive(:cmd).with(tmux_path, match(%r{\Anew-window})).and_return(new_session_command)
+      allow(tmux_pane).to receive(:cmd).with(tmux_path, match(%r{\Anew-session})).and_return(new_session_command)
       allow(mock_shell).to receive(:run).with(new_session_command).and_return(new_session_result)
       tmux_pane.start_child("something", task_name)
     end
