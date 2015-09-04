@@ -1,0 +1,6 @@
+* All the .rakes need to become .rb as Xing::Tasklibs
+* Above converted .rb files needs specs
+* optionally need specs for ChildManager (or add requirement for tmux)
+* need a xing-root tasklib that orchestrates the other tasklibs
+* need docs on how to install and start using this sucker
+* possibly code generation ie `rails new`, or `rails g` as a starting place for a xing project
