@@ -12,7 +12,10 @@ module Xing
       default_namespace :develop
 
       setting :port_offset
-      setting :reload_server_port, :rails_server_port, :mobile_server_port, :browser_port
+      setting :reload_server_port
+      setting :rails_server_port
+      setting :mobile_server_port
+      setting :static_server_port
       setting :manager
 
 
@@ -54,31 +57,32 @@ module Xing
       def define
         in_namespace do
           desc "Launch a browser connected to a running development server"
-          edict_task :launch_browser, Edict::LaunchBrowser
+          edict_task :launch_browser
+          setting Edict::LaunchBrowser
 
           edict_task :grunt_watch, Edict::StartChild do |gw|
             gw.label = "Grunt"
-            gw.child_task = 'develop:service:grunt_watch'
+            gw.child_task = in_namespace 'service:grunt_watch'
           end
 
           edict_task :compass_watch, Edict::StartChild do |cw|
             cw.label = "Compass"
-            cw.child_task = "develop:service:compass_watch"
+            cw.child_task = in_namespace 'service:compass_watch'
           end
 
           edict_task :rails_server, Edict::StartChild do |rs|
             rs.label = "Rails"
-            rs.child_task = 'develop:service:rails_server'
+            rs.child_task = in_namespace 'service:rails_server'
           end
 
           edict_task :sidekiq, Edict::StartChild do |sk|
             sk.label = "Sidekiq"
-            sk.child_task = 'develop:service:sidekiq'
+            sk.child_task = in_namespace 'service:sidekiq'
           end
 
           edict_task :static_assets, Edict::StartChild do |sa|
             sa.label = "Static"
-            sa.child_task = 'develop:service:static_assets'
+            sa.child_task = in_namespace 'service:static_assets'
           end
 
           namespace :service do
@@ -131,3 +135,4 @@ module Xing
 
     end
   end
+end
