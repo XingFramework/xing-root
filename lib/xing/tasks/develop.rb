@@ -32,8 +32,8 @@ module Xing
           begin
             require 'child-manager'
             require 'tmux-manager'
-            if TmuxManager.available?
-              TmuxPaneManager.new
+            if Managers::Tmux.available?
+              Managers::TmuxPane.new
             else
               ChildManager.new.tap do |mngr|
                 at_exit{ mngr.kill_all }
