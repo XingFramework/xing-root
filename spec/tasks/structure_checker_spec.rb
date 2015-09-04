@@ -1,12 +1,12 @@
-require 'xing/tasks/structure_checker'
+require 'xing/edicts/structure-checker'
 require 'support/file-sandbox'
 require 'stringio'
 
-describe Xing::Tasks::StructureChecker do
+describe Xing::Edicts::StructureChecker do
   include FileSandbox
 
   subject :checker do
-    Xing::Tasks::StructureChecker.new do |checker|
+    Xing::Edicts::StructureChecker.new do |checker|
       checker.dir = "test-dir"
       checker.out_stream = stdout
     end
@@ -22,7 +22,7 @@ describe Xing::Tasks::StructureChecker do
     end
 
     it "should report errors" do
-      expect{subject.action}.to raise_error(Xing::Tasks::StructureChecker::Error)
+      expect{subject.action}.to raise_error(Xing::Edicts::StructureChecker::Error)
       expect(stdout.string).to match(%r{In test-dir/problem.js})
       expect(stdout.string).to match(%r{'from' includes ../})
     end
