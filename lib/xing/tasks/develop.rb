@@ -33,8 +33,8 @@ module Xing
 
         @manager ||=
           begin
-            require 'child-manager'
-            require 'tmux-manager'
+            require 'xing/managers/child'
+            require 'xing/managers/tmux'
             if Managers::Tmux.available?
               Managers::TmuxPane.new
             else
@@ -45,9 +45,11 @@ module Xing
           end.tap do |mgr|
             puts "Using #{mgr.class.name}"
           end
+          super
       end
 
       def resolve_configuration
+        super
         self.reload_server_port = DEFAULT_RELOAD_PORT + port_offset if field_unset?(:reload_server_port)
         self.rails_server_port  = DEFAULT_RAILS_PORT  + port_offset if field_unset?(:rails_server_port)
         self.mobile_server_port = DEFAULT_MOBILE_PORT + port_offset if field_unset?(:mobile_server_port)
@@ -57,48 +59,47 @@ module Xing
       def define
         in_namespace do
           desc "Launch a browser connected to a running development server"
-          edict_task :launch_browser
-          setting Edict::LaunchBrowser
+          edict_task :launch_browser, Edicts::LaunchBrowser
 
-          edict_task :grunt_watch, Edict::StartChild do |gw|
+          edict_task :grunt_watch, Edicts::StartChild do |gw|
             gw.label = "Grunt"
             gw.child_task = in_namespace 'service:grunt_watch'
           end
 
-          edict_task :compass_watch, Edict::StartChild do |cw|
+          edict_task :compass_watch, Edicts::StartChild do |cw|
             cw.label = "Compass"
             cw.child_task = in_namespace 'service:compass_watch'
           end
 
-          edict_task :rails_server, Edict::StartChild do |rs|
+          edict_task :rails_server, Edicts::StartChild do |rs|
             rs.label = "Rails"
             rs.child_task = in_namespace 'service:rails_server'
           end
 
-          edict_task :sidekiq, Edict::StartChild do |sk|
+          edict_task :sidekiq, Edicts::StartChild do |sk|
             sk.label = "Sidekiq"
             sk.child_task = in_namespace 'service:sidekiq'
           end
 
-          edict_task :static_assets, Edict::StartChild do |sa|
+          edict_task :static_assets, Edicts::StartChild do |sa|
             sa.label = "Static"
             sa.child_task = in_namespace 'service:static_assets'
           end
 
           namespace :service do
-            edict_task :grunt_watch, Edict::CleanRun do |gw|
+            edict_task :grunt_watch, Edicts::CleanRun do |gw|
               gw.dir = "frontend"
               gw.shell_cmd = %w{bundle exec node_modules/.bin/grunt watch:develop}
               gw.env_hash = {"CUSTOM_CONFIG_DIR" => "../web"}
             end
             task :grunt_watch => 'frontend:setup'
 
-            edict_task :compass_watch, Edict::CleanRun do |cw|
+            edict_task :compass_watch, Edicts::CleanRun do |cw|
               cw.dir = "frontend"
               cw.shell_cmd = %w{bundle exec compass watch}
             end
 
-            edict_task :rails_server, Edict::CleanRun do |rs|
+            edict_task :rails_server, Edicts::CleanRun do |rs|
               words = %w{bundle exec rails server}
               words << "-p#{rails_server_port}"
 
@@ -107,12 +108,12 @@ module Xing
             end
             task :rails_server => 'backend:setup'
 
-            edict_task :sidekiq, Edict::CleanRun do |sk|
+            edict_task :sidekiq, Edicts::CleanRun do |sk|
               sk.dir = "backend"
               sk.shell_cmd = %w{bundle exec sidekiq}
             end
 
-            edict_task :static_assets, Edict::CleanRun do |sa|
+            edict_task :static_assets, Edicts::CleanRun do |sa|
               words = %w{bundle exec rackup}
               words << "-p#{static_server_port}"
               words << "static-app.ru"
