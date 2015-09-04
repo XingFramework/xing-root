@@ -20,6 +20,31 @@ Gem::Specification.new do |spec|
   # Do this: y$@"
   # !!find lib bin doc spec spec_help -not -regex '.*\.sw.' -type f 2>/dev/null
   spec.files		= %w[
+    lib/xing/edicts.rb
+    lib/xing/tasks/backend.rake
+    lib/xing/tasks/mobile.rake
+    lib/xing/tasks/build.rake
+    lib/xing/tasks/frontend.rb
+    lib/xing/tasks/tasklib.rb
+    lib/xing/tasks/spec.rake
+    lib/xing/tasks/develop.rb
+    lib/xing/managers/child.rb
+    lib/xing/managers/tmux.rb
+    lib/xing/edicts/start-child.rb
+    lib/xing/edicts/clean-rake.rb
+    lib/xing/edicts/clean-run.rb
+    lib/xing/edicts/structure-checker.rb
+    lib/xing/edicts/launch-browser.rb
+    lib/xing-root.rb
+    spec/tasks/frontend_spec.rb
+    spec/tasks/develop_spec.rb
+    spec/tasks/structure_checker_spec.rb
+    spec/managers/tmux_spec.rb
+    spec/support/file-sandbox.rb
+    spec/edicts/start-child_spec.rb
+    spec/edicts/clean_run_spec.rb
+    spec/edicts/clean_rake_spec.rb
+    spec/edicts/launch-browser_spec.rb
   ]
 
   spec.test_file        = "spec_help/gem_test_suite.rb"
