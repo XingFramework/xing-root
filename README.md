@@ -1,6 +1,12 @@
 The Xing Framework: Root
 ===
 
+[![Code Climate](https://codeclimate.com/github/XingFramework/xing-root/badges/gpa.svg)](https://codeclimate.com/github/XingFramework/xing-root)
+[![Test Coverage](https://codeclimate.com/github/XingFramework/xing-root/badges/coverage.svg)](https://codeclimate.com/github/XingFramework/xing-root/coverage)
+[![Build Status](https://travis-ci.org/XingFramework/xing-root.svg?branch=master)](https://travis-ci.org/XingFramework/xing-root)
+[![Dependency Status](https://gemnasium.com/XingFramework/xing-root.svg)](https://gemnasium.com/XingFramework/xing-root)
+
+
 The Xing Framework is a cutting edge web and mobile development platform by
 Logical Reality Design, Inc.  It is designed to provide a completely modern
 (and even somewhat future-proofed) API + SPA web development platform with
