@@ -36,8 +36,6 @@ Additional info TBD.
 Authors
 -------
 
-* Evan Dorn
-* Hannah Howard
 * Judson Lester
 * Patricia Ho
 
