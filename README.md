@@ -49,5 +49,3 @@ Version
 -------
 
 Untagged version, not yet ready for release
-    
-
