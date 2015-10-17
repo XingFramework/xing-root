@@ -3,3 +3,5 @@
 corundum/
 .cadre/
 .ruby-gemset
+errors.err
+last_run
