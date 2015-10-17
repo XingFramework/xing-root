@@ -18,7 +18,6 @@ module Xing
       setting :static_server_port
       setting :manager
 
-
       def default_configuration
         @port_offset ||=
           begin
