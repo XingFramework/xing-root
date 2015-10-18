@@ -106,11 +106,15 @@ module Xing
         lines = tput_lines
         min_lines = (ENV["XING_TMUX_MIN_LINES"] || MINIMUM_WINDOW_LINES).to_i
         min_lines = [1, lines / min_lines].max
-        if calculate_layout == "tiled"
+        if layout == "tiled"
           min_lines * 2
         else
           min_lines
         end
+      end
+
+      def layout
+        @layout ||= calculate_layout
       end
 
       def calculate_layout
@@ -142,7 +146,7 @@ module Xing
       end
 
       def open_additional_window(name, task)
-        tmux "select-layout -t '#@window_name' #{@layout}"
+        tmux "select-layout -t '#@window_name' #{layout}"
         @window_count = @window_count + 1
         @window_name = "Dev Servers #{@window_count}"
         tmux "new-window -d -n '#@window_name' '#{rake_command(task)}' \\; set-window-option remain-on-exit on"
@@ -162,7 +166,7 @@ module Xing
       end
 
       def wait_all
-        tmux "select-layout -t '#@window_name' #{@layout}"
+        tmux "select-layout -t '#@window_name' #{layout}"
         super
       end
     end
