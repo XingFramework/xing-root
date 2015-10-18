@@ -1,4 +1,4 @@
-require 'xing/tasks/develop'
+require 'xing/tasks'
 
 
 describe Xing::Tasks::Develop do

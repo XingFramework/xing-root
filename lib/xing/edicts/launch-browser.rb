@@ -79,7 +79,6 @@ module Xing::Edicts
       else
         puts
         puts "There's already a browser attached to the LiveReload server."
-        p existing.first
       end
     end
 
