@@ -99,9 +99,7 @@ module Xing
         # need to use %x here rather than open a Caliph subshell
         # won't ahve the same terminal with subshell
         lines = %x"tput lines".chomp.to_i
-        puts "LINES: #{lines}"
         min_lines = (ENV["XING_TMUX_MIN_LINES"] || MINIMUM_WINDOW_LINES).to_i
-        puts "MIN LINES: #{min_lines}"
         [1, lines / min_lines].max
       end
 
@@ -118,7 +116,6 @@ module Xing
       end
 
       def open_new_pane(name, task)
-        puts "NEW PANE"
         tmux "new-window -d -n '#{name}' '#{rake_command(task)}' \\; set-window-option remain-on-exit on"
         tmux "join-pane -d -s '#{name}.0' -t '#{@window_name}.bottom'"
       end
@@ -140,15 +137,11 @@ module Xing
         tmux "select-layout -t '#@window_name' #{@layout}"
         @window_count = @window_count + 1
         @window_name = "Dev Servers #{@window_count}"
-        puts "OPEN ADDITIONAL WINDOW"
         tmux "new-window -d -n '#@window_name' '#{rake_command(task)}' \\; set-window-option remain-on-exit on"
         @pane_count = 0
       end
 
       def start_child(name, task)
-        puts "TMUX Manager object_id: #{self.object_id}"
-        puts "TMUX Manager first_child: #{@first_child.inspect}"
-
         if @first_child
           open_first_window(name, task)
         elsif @pane_count >= @new_window_after
