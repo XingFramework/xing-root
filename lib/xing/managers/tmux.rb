@@ -96,9 +96,9 @@ module Xing
       attr_accessor :window_name
 
       def calculate_lines_per_window
-        p shell
-        p shell.run("tput longname").stdout
-        lines = shell.run("tput lines").stdout.chomp.to_i
+        # need to use %x here rather than open a Caliph subshell
+        # won't ahve the same terminal with subshell
+        lines = %x"tput lines".chomp.to_i
         puts "LINES: #{lines}"
         min_lines = (ENV["XING_TMUX_MIN_LINES"] || MINIMUM_WINDOW_LINES).to_i
         puts "MIN LINES: #{min_lines}"
@@ -107,7 +107,9 @@ module Xing
 
       def calculate_layout
         min_cols = (ENV["XING_TMUX_MIN_COLS"] || MINIMUM_WINDOW_COLUMNS).to_i
-        cols = shell.run("tput cols").stdout.chomp.to_i
+        # need to use %x here rather than open a Caliph subshell
+        # won't ahve the same terminal with subshell
+        cols = %x"tput cols".chomp.to_i
         if cols > min_cols * 2
           "tiled"
         else
