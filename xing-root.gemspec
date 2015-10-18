@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   # !!find lib bin doc spec spec_help -not -regex '.*\.sw.' -type f 2>/dev/null
   spec.files		= %w[
     lib/xing/edicts.rb
+    lib/xing/tasks.rb
     lib/xing/tasks/backend.rake
     lib/xing/tasks/mobile.rake
     lib/xing/tasks/build.rake
@@ -60,6 +61,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency("edict", "> 0")
   spec.add_dependency("caliph", "> 0")
+  spec.add_dependency("mattock", "> 0")
 
   #spec.post_install_message = "Thanks for installing my gem!"
 end

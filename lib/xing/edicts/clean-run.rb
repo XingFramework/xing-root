@@ -11,7 +11,8 @@ module Xing
       setting :env_hash
       setting :caliph_shell
 
-      def default_settings
+      def setup_defaults
+        super
         @caliph_shell = Caliph::Shell.new
       end
 
