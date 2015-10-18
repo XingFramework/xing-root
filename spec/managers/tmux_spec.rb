@@ -1,19 +1,15 @@
 require 'xing/managers/tmux'
 
 describe Xing::Managers::TmuxPane do
-  let :lines_value do
-    "40\n"
+  let :lines do
+    40
   end
 
-  let :cols_value do
-    "160\n"
+  let :cols do
+    160
   end
 
   before :each do
-    allow(lines_result).to receive(:stdout).and_return(lines_value)
-    allow(cols_result).to receive(:stdout).and_return(cols_value)
-    allow(mock_shell).to receive(:run).with("tput lines").and_return(lines_result)
-    allow(mock_shell).to receive(:run).with("tput cols").and_return(cols_result)
     allow(tmux_pane).to receive(:puts)
   end
 
@@ -28,8 +24,6 @@ describe Xing::Managers::TmuxPane do
   command(:list_cmd)
   command(:new_session_command)
 
-  let (:lines_result) { instance_double(Caliph::CommandRunResult) }
-  let (:cols_result) { instance_double(Caliph::CommandRunResult) }
   let (:mock_shell) { instance_double(Caliph::Shell) }
   let (:list_result) { instance_double(Caliph::CommandRunResult) }
   let (:new_session_result) { instance_double(Caliph::CommandRunResult) }
@@ -49,6 +43,9 @@ describe Xing::Managers::TmuxPane do
   end
 
   before :each do
+    allow(tmux_pane).to receive(:tput_lines).and_return(lines)
+    allow(tmux_pane).to receive(:tput_cols).and_return(cols)
+
     allow(tmux_pane).to receive(:existing?).and_return(false, true)
     allow(list_result).to receive(:stdout).and_return("nothing important")
     allow(new_session_result).to receive(:stdout).and_return("nothing important")
@@ -88,12 +85,12 @@ describe Xing::Managers::TmuxPane do
 
     describe "in small terminal" do
 
-      let :lines_value do
-        "15\n"
+      let :lines do
+        15
       end
 
-      let :cols_value do
-        "40\n"
+      let :cols do
+        40
       end
 
       it "gets a new window" do

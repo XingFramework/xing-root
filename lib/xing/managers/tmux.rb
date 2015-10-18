@@ -85,29 +85,37 @@ module Xing
         @window_name = "Dev Servers"
         @pane_count = 0
         @window_count = 1
-
-        @new_window_after =  calculate_lines_per_window
-        @layout = calculate_layout
-
-        if @layout == "tiled"
-          @new_window_after = @new_window_after * 2
-        end
       end
       attr_accessor :window_name
 
+      def new_window_after
+        @new_window_after ||= calculate_lines_per_window
+      end
+
+      # need to use %x here rather than open a Caliph subshell
+      # won't ahve the same terminal with subshell
+      def tput_lines
+        %x"tput lines".chomp.to_i
+      end
+
+      def tput_cols
+        %x"tput cols".chomp.to_i
+      end
+
       def calculate_lines_per_window
-        # need to use %x here rather than open a Caliph subshell
-        # won't ahve the same terminal with subshell
-        lines = %x"tput lines".chomp.to_i
+        lines = tput_lines
         min_lines = (ENV["XING_TMUX_MIN_LINES"] || MINIMUM_WINDOW_LINES).to_i
-        [1, lines / min_lines].max
+        min_lines = [1, lines / min_lines].max
+        if calculate_layout == "tiled"
+          min_lines * 2
+        else
+          min_lines
+        end
       end
 
       def calculate_layout
         min_cols = (ENV["XING_TMUX_MIN_COLS"] || MINIMUM_WINDOW_COLUMNS).to_i
-        # need to use %x here rather than open a Caliph subshell
-        # won't ahve the same terminal with subshell
-        cols = %x"tput cols".chomp.to_i
+        cols = tput_cols
         if cols > min_cols * 2
           "tiled"
         else
@@ -144,7 +152,7 @@ module Xing
       def start_child(name, task)
         if @first_child
           open_first_window(name, task)
-        elsif @pane_count >= @new_window_after
+        elsif @pane_count >= new_window_after
           open_additional_window(name, task)
         else
           open_new_pane(name, task)

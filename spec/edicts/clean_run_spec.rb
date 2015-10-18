@@ -1,4 +1,5 @@
 require 'xing/edicts/clean-run'
+require 'bundler'
 
 describe Xing::Edicts::CleanRun do
 

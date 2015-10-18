@@ -1,4 +1,5 @@
 require 'xing/edicts/clean-rake'
+#require 'bundler'
 
 describe Xing::Edicts::CleanRake do
 
