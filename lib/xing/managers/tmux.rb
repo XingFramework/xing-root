@@ -96,8 +96,12 @@ module Xing
       attr_accessor :window_name
 
       def calculate_lines_per_window
+        p shell
+        p shell.run("tput longname").stdout
         lines = shell.run("tput lines").stdout.chomp.to_i
+        puts "LINES: #{lines}"
         min_lines = (ENV["XING_TMUX_MIN_LINES"] || MINIMUM_WINDOW_LINES).to_i
+        puts "MIN LINES: #{min_lines}"
         [1, lines / min_lines].max
       end
 
@@ -112,6 +116,7 @@ module Xing
       end
 
       def open_new_pane(name, task)
+        puts "NEW PANE"
         tmux "new-window -d -n '#{name}' '#{rake_command(task)}' \\; set-window-option remain-on-exit on"
         tmux "join-pane -d -s '#{name}.0' -t '#{@window_name}.bottom'"
       end
@@ -133,6 +138,7 @@ module Xing
         tmux "select-layout -t '#@window_name' #{@layout}"
         @window_count = @window_count + 1
         @window_name = "Dev Servers #{@window_count}"
+        puts "OPEN ADDITIONAL WINDOW"
         tmux "new-window -d -n '#@window_name' '#{rake_command(task)}' \\; set-window-option remain-on-exit on"
         @pane_count = 0
       end

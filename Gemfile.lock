@@ -4,6 +4,7 @@ PATH
     xing-root (0.0.1)
       caliph (> 0)
       edict (> 0)
+      mattock (> 0)
 
 GEM
   remote: https://rubygems.org/
@@ -70,3 +71,6 @@ DEPENDENCIES
   corundum
   edict
   xing-root!
+
+BUNDLED WITH
+   1.10.6

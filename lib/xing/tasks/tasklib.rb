@@ -8,9 +8,17 @@ module Xing
           copy_settings_to(eddie)
           yield eddie if block_given?
         end
-        task name do
+        edict_task = task name do
           edict.enact
         end
+
+        # For testing purposes
+        edict_task.instance_variable_set("@edict", edict)
+        def edict_task.edict
+          @edict
+        end
+
+        edict_task
       end
     end
   end

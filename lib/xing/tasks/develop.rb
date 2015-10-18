@@ -17,6 +17,7 @@ module Xing
       setting :mobile_server_port
       setting :static_server_port
       setting :manager
+      setting :config_dir, "../frontend"
 
       def default_configuration
         @port_offset ||=
@@ -61,35 +62,40 @@ module Xing
           edict_task :launch_browser, Edicts::LaunchBrowser
 
           edict_task :grunt_watch, Edicts::StartChild do |gw|
+            gw.manager = manager
             gw.label = "Grunt"
-            gw.child_task = in_namespace 'service:grunt_watch'
+            gw.child_task = in_namespace('service:grunt_watch').first
           end
 
           edict_task :compass_watch, Edicts::StartChild do |cw|
+            cw.manager = manager
             cw.label = "Compass"
-            cw.child_task = in_namespace 'service:compass_watch'
+            cw.child_task = in_namespace('service:compass_watch').first
           end
 
           edict_task :rails_server, Edicts::StartChild do |rs|
+            rs.manager = manager
             rs.label = "Rails"
-            rs.child_task = in_namespace 'service:rails_server'
+            rs.child_task = in_namespace('service:rails_server').first
           end
 
           edict_task :sidekiq, Edicts::StartChild do |sk|
+            sk.manager = manager
             sk.label = "Sidekiq"
-            sk.child_task = in_namespace 'service:sidekiq'
+            sk.child_task = in_namespace('service:sidekiq').first
           end
 
           edict_task :static_assets, Edicts::StartChild do |sa|
+            sa.manager = manager
             sa.label = "Static"
-            sa.child_task = in_namespace 'service:static_assets'
+            sa.child_task = in_namespace('service:static_assets').first
           end
 
           namespace :service do
             edict_task :grunt_watch, Edicts::CleanRun do |gw|
               gw.dir = "frontend"
               gw.shell_cmd = %w{bundle exec node_modules/.bin/grunt watch:develop}
-              gw.env_hash = {"CUSTOM_CONFIG_DIR" => "../web"}
+              gw.env_hash = {"CUSTOM_CONFIG_DIR" => config_dir}
             end
             task :grunt_watch => 'frontend:setup'
 

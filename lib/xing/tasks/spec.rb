@@ -5,12 +5,13 @@ module Xing
   module Tasks
     class Spec < Tasklib
       default_namespace :spec
+      setting :config_dir, "../frontend"
 
       def define
         in_namespace do
           edict_task :grunt_ci_test, Edicts::CleanRun do |gct|
             gct.dir = "frontend"
-            gct.env_hash = {'CUSTOM_CONFIG_DIR' => "../web"}
+            gct.env_hash = {'CUSTOM_CONFIG_DIR' => config_dir}
             gct.shell_cmd = %w{bundle exec node_modules/.bin/grunt ci-test}
           end
           task :grunt_ci_test => ['build:frontend:all' ]
