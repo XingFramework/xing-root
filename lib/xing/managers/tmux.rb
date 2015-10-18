@@ -138,6 +138,9 @@ module Xing
       end
 
       def start_child(name, task)
+        puts "TMUX Manager object_id: #{self.object_id}"
+        puts "TMUX Manager first_child: #{@first_child.inspect}"
+
         if @first_child
           open_first_window(name, task)
         elsif @pane_count >= @new_window_after
