@@ -14,6 +14,8 @@ GEM
       valise (~> 1.1.2)
     calibrate (0.0.1)
     caliph (0.3.1)
+    codeclimate-test-reporter (0.4.8)
+      simplecov (>= 0.7.1, < 1.0.0)
     corundum (0.6.0)
       bundler
       caliph (~> 0.3)
@@ -64,9 +66,7 @@ PLATFORMS
 
 DEPENDENCIES
   cadre
+  codeclimate-test-reporter
   corundum
   edict
   xing-root!
-
-BUNDLED WITH
-   1.10.6
