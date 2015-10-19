@@ -106,7 +106,7 @@ module Xing
 
             edict_task :rails_server, Edicts::CleanRun do |rs|
               words = %w{bundle exec rails server}
-              words << "-p#{rails_server_port}"
+              words << "-p#{rails_server_port}" #ok
 
               rs.dir = "backend"
               rs.shell_cmd = words
@@ -120,7 +120,7 @@ module Xing
 
             edict_task :static_assets, Edicts::CleanRun do |sa|
               words = %w{bundle exec rackup}
-              words << "-p#{static_server_port}"
+              words << "-p#{static_server_port}" #ok
               words << "static-app.ru"
 
               sa.dir = "backend"

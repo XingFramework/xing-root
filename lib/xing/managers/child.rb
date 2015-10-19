@@ -102,12 +102,9 @@ class ChildManager
       kill_child(pid)
     end
     previous_term_trap = trap "TERM" do
-      p "Trapped TERM once"
+      puts "Trapped TERM once"
       trap "TERM", previous_term_trap
     end
-    p previous_term_trap
     Process::kill("TERM", 0)
-    p Process.waitall rescue []
-    p @child_data
   end
 end

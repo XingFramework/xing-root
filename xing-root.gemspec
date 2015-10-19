@@ -1,7 +1,7 @@
 Gem::Specification.new do |spec|
   spec.name		= "xing-root"
   #{MAJOR: incompatible}.{MINOR added feature}.{PATCH bugfix}-{LABEL}
-  spec.version		= "0.0.2"
+  spec.version		= "0.0.3"
   author_list = {
     "Judson Lester" => "judson@lrdesign.com",
     "Patricia Ho" => "patricia@lrdesign.com"
@@ -22,12 +22,11 @@ Gem::Specification.new do |spec|
   spec.files		= %w[
     lib/xing/edicts.rb
     lib/xing/tasks.rb
-    lib/xing/tasks/backend.rake
-    lib/xing/tasks/mobile.rake
-    lib/xing/tasks/build.rake
+    lib/xing/tasks/backend.rb
+    lib/xing/tasks/build.rb
     lib/xing/tasks/frontend.rb
     lib/xing/tasks/tasklib.rb
-    lib/xing/tasks/spec.rake
+    lib/xing/tasks/spec.rb
     lib/xing/tasks/develop.rb
     lib/xing/managers/child.rb
     lib/xing/managers/tmux.rb
@@ -48,7 +47,7 @@ Gem::Specification.new do |spec|
     spec/edicts/launch-browser_spec.rb
   ]
 
-  spec.test_file        = "spec_help/gem_test_suite.rb"
+  # spec.test_file        = "spec_help/gem_test_suite.rb"
   spec.licenses = ["MIT"]
   spec.require_paths = %w[lib/]
   spec.rubygems_version = "1.3.5"

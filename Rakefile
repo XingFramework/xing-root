@@ -59,7 +59,7 @@ module Corundum
     # be in the gemspec (covered files should be included, and included files
     # should be covered)
     SimpleCov.new(core, rspec) do |cov|
-      cov.threshold = 85
+      cov.threshold = 78
     end
 
     # The tasks to actually take code + gemspec and package into a gem. All its

@@ -5,3 +5,4 @@ corundum/
 .ruby-gemset
 errors.err
 last_run
+pkg/

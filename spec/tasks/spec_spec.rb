@@ -1,6 +1,5 @@
 require 'xing/tasks/spec'
 
-
 describe Xing::Tasks::Spec do
   before :each do
     Rake.application = nil
