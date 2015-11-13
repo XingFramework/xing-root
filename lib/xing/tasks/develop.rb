@@ -94,7 +94,7 @@ module Xing
           namespace :service do
             edict_task :grunt_watch, Edicts::CleanRun do |gw|
               gw.dir = "frontend"
-              gw.shell_cmd = %w{bundle exec node_modules/.bin/grunt watch:develop}
+              gw.shell_cmd = %w{bundle exec node_modules/.bin/grunt delta:develop}
               gw.env_hash = {"CUSTOM_CONFIG_DIR" => config_dir}
             end
             task :grunt_watch => 'frontend:setup'
