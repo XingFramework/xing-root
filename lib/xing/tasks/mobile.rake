@@ -9,7 +9,7 @@ namespace :mobile do
     self.browser_port = mobile_server_port
     manager.start_child("Grunt", "frontend") do
       ENV['CUSTOM_CONFIG_DIR'] = "../mobile"
-      sh *%w{ bundle exec node_modules/.bin/grunt watch:integrate}
+      sh *%w{ bundle exec node_modules/.bin/grunt delta:integrate}
     end
   end
 
