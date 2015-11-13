@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xing-root (0.0.3)
+    xing-root (0.0.4)
       caliph (~> 0.3)
       edict (< 1.0)
       mattock (~> 0.10)
@@ -71,3 +71,6 @@ DEPENDENCIES
   codeclimate-test-reporter
   corundum
   xing-root!
+
+BUNDLED WITH
+   1.10.6
