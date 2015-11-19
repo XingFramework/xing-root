@@ -39,7 +39,7 @@ module Xing::Utils
       if /\.\./ =~ @md[:from]
         problem "from includes .. not at pos 0" if /\A\.\./ !~ @md[:from]
         problem "from includes .. after words" if /\w.*\.\./ =~ @md[:from]
-        if !(violation = %r{(?<dir>\w+)/\w}.match @md[:from]).nil?
+        unless (violation = %r{(?<dir>\w+)/\w}.match @md[:from]).nil?
           unless %r{\.\./(#{context.escape_clause_list.join("|")})} =~ @md[:from]
             problem "Imports Rule: 'from' includes ../ and then #{violation[:dir].inspect} not in #{context.escape_clause_list.inspect}"
           end
