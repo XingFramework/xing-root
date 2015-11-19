@@ -51,14 +51,14 @@ module Xing::Utils
       @error_block.call(message, @import_line, @lineno)
     end
 
-    def initialize_check
+    def initialize_check(error_block)
       @error_block = error_block
       @lines = File.read(path).lines
       @lineno = 0
     end
 
     def check(&error_block)
-      initial_check
+      initialize_check(error_block)
       while @lineno < @lines.length
         read_next
         if is_import_line
