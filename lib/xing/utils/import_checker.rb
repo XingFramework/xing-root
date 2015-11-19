@@ -32,19 +32,13 @@ module Xing::Utils
     end
 
     def check_empty_match
-      if @md.nil?
-        problem "doesn't seem to have a 'from' clause...", @import_line, @lineno, path
-      end
+      problem "doesn't seem to have a 'from' clause..." if @md.nil?
     end
 
     def check_structure
       if /\.\./ =~ @md[:from]
-        if /\A\.\./ !~ @md[:from]
-          problem "from includes .. not at pos 0"
-        end
-        if /\w.*\.\./ =~ @md[:from]
-          problem "from includes .. after words"
-        end
+        problem "from includes .. not at pos 0" if /\A\.\./ !~ @md[:from]
+        problem "from includes .. after words" if /\w.*\.\./ =~ @md[:from]
         if !(violation = %r{(?<dir>\w+)/\w}.match @md[:from]).nil?
           unless %r{\.\./(#{context.escape_clause_list.join("|")})} =~ @md[:from]
             problem "Imports Rule: 'from' includes ../ and then #{violation[:dir].inspect} not in #{context.escape_clause_list.inspect}"
@@ -57,10 +51,14 @@ module Xing::Utils
       @error_block.call(message, @import_line, @lineno)
     end
 
-    def check(&error_block)
+    def initialize_check
       @error_block = error_block
       @lines = File.read(path).lines
       @lineno = 0
+    end
+
+    def check(&error_block)
+      initial_check
       while @lineno < @lines.length
         read_next
         if is_import_line
