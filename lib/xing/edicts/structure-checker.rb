@@ -1,6 +1,7 @@
 require 'xing-root'
 require 'find'
 require 'edict'
+require 'xing/utils/import_checker'
 
 module Xing::Edicts
   class StructureChecker < Edict::Rule
@@ -74,25 +75,9 @@ module Xing::Edicts
     end
 
     def check_imports(path, context)
-      File.read(path).lines.grep(/\s*import/).each_with_index do |import_line, lineno|
-        md = /.*from (?<quote>['"])(?<from>.*)\k<quote>/.match(import_line)
-        if md.nil?
-          problem "doesn't seem to have a 'from' clause...", import_line, lineno, path
-        end
-
-        if /\.\./ =~ md[:from]
-          if /\A\.\./ !~ md[:from]
-            problem "from includes .. not at pos 0", import_line, lineno, path
-          end
-          if /\w.*\.\./ =~ md[:from]
-            problem "from includes .. after words", import_line, lineno, path
-          end
-          if !(violation = %r{(?<dir>\w+)/\w}.match md[:from]).nil?
-            unless %r{\.\./(#{context.escape_clause_list.join("|")})} =~ md[:from]
-              problem "Imports Rule: 'from' includes ../ and then #{violation[:dir].inspect} not in #{context.escape_clause_list.inspect}", import_line, lineno, path
-            end
-          end
-        end
+      checker = Xing::Utils::ImportChecker.new(path, context)
+      checker.check do |message, line, lineno|
+        problem message, line, lineno, path
       end
     end
   end
