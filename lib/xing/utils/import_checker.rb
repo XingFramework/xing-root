@@ -1,5 +1,6 @@
 module Xing::Utils
   class ImportChecker
+
     def initialize(path, context)
       @path = path
       @context = context
