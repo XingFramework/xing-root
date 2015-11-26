@@ -35,16 +35,18 @@ Gem::Specification.new do |spec|
     lib/xing/edicts/clean-run.rb
     lib/xing/edicts/structure-checker.rb
     lib/xing/edicts/launch-browser.rb
+    lib/xing/utils/import_checker.rb
     lib/xing-root.rb
     spec/tasks/frontend_spec.rb
     spec/tasks/develop_spec.rb
-    spec/tasks/structure_checker_spec.rb
     spec/managers/tmux_spec.rb
     spec/support/file-sandbox.rb
     spec/edicts/start-child_spec.rb
     spec/edicts/clean_run_spec.rb
     spec/edicts/clean_rake_spec.rb
     spec/edicts/launch-browser_spec.rb
+    spec/edicts/structure_checker_spec.rb
+    spec/utils/import_checker_spec.rb
   ]
 
   # spec.test_file        = "spec_help/gem_test_suite.rb"
