@@ -49,6 +49,36 @@ describe Xing::Utils::ImportChecker do
     end
   end
 
+  describe "single line with brackets" do
+    describe "with a problem file" do
+
+      before :each do
+        @sandbox.new :file => "test-dir/problem.js", :with_content => "import { Thing } from '../../../somewhere/bad.js';"
+        checker.check do |message, import_line, lineno|
+          errors << [message, import_line, lineno]
+        end
+      end
+
+      it "should report errors" do
+        expect(errors).to_not be_empty
+        expect(errors[0][0]).to match(%r{'from' includes ../})
+      end
+    end
+
+    describe "with a good file" do
+      before :each do
+        @sandbox.new :file => "test-dir/problem.js", :with_content => "import { Thing } from 'somewhere/okay.js';"
+        checker.check do |message, import_line, lineno|
+          errors << [message, import_line, lineno]
+        end
+      end
+
+      it "should not report errors" do
+        expect(errors).to be_empty
+      end
+    end
+  end
+
   describe "multi-line import" do
     describe "with a problem file" do
       before :each do
