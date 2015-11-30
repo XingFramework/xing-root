@@ -18,8 +18,9 @@ module Xing::Utils
 
     def skip_to_end_of_import
       # for a multi-line import, we need to skip past multiple lines of import
-      begin_check = /.*(?<begin>\{).*(?<end>\}?)/.match(@import_line)
-      if begin_check and begin_check[:begin] and begin_check[:end].empty?
+      begin_check = /.*(?<begin>\{).*/.match(@import_line)
+      end_check = /.*(?<end>\}).*/.match(@import_line)
+      if begin_check and !end_check
         begin
           @lineno += 1
           read_next
