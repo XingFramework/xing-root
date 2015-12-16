@@ -1,7 +1,7 @@
 Gem::Specification.new do |spec|
   spec.name		= "xing-root"
   #{MAJOR: incompatible}.{MINOR added feature}.{PATCH bugfix}-{LABEL}
-  spec.version		= "0.0.4"
+  spec.version		= "0.0.5"
   author_list = {
     "Judson Lester" => "judson@lrdesign.com",
     "Patricia Ho" => "patricia@lrdesign.com"
