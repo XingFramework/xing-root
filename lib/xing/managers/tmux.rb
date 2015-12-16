@@ -62,7 +62,7 @@ module Xing
 
       def wait_all
         path = File.expand_path(@extra_config_path)
-        if File.exists?(path)
+        if File.exist?(path)
           puts "Loading #{path}"
           tmux "source-file #{path}"
         else
@@ -145,7 +145,7 @@ module Xing
         end
       end
 
-      def open_additional_window(name, task)
+      def open_additional_window(_name, task)
         tmux "select-layout -t '#@window_name' #{layout}"
         @window_count = @window_count + 1
         @window_name = "Dev Servers #{@window_count}"

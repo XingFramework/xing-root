@@ -9,7 +9,7 @@ namespace :mobile do
     self.browser_port = mobile_server_port
     manager.start_child("Grunt", "frontend") do
       ENV['CUSTOM_CONFIG_DIR'] = "../mobile"
-      sh *%w{ bundle exec node_modules/.bin/grunt delta:integrate}
+      sh(  *%w{ bundle exec node_modules/.bin/grunt delta:integrate} )
     end
   end
 
@@ -17,7 +17,7 @@ namespace :mobile do
     Bundler.with_clean_env do
       Dir.chdir("frontend") do
         ENV['CUSTOM_CONFIG_DIR'] = "../mobile"
-        sh *%w{ bundle exec node_modules/.bin/grunt integrate}
+        sh(  *%w{ bundle exec node_modules/.bin/grunt integrate} )
       end
     end
   end
@@ -26,7 +26,7 @@ namespace :mobile do
     Bundler.with_clean_env do
       Dir.chdir("frontend") do
         ENV['CUSTOM_CONFIG_DIR'] = "../mobile"
-        sh *%w{ bundle exec node_modules/.bin/grunt compile}
+        sh(  *%w{ bundle exec node_modules/.bin/grunt compile} )
       end
     end
   end
@@ -37,7 +37,7 @@ namespace :mobile do
     task :ios do
       Bundler.with_clean_env do
         Dir.chdir("mobile") do
-          sh *%w{bundle exec ../frontend/node_modules/.bin/cordova platform add ios}
+          sh(  *%w{bundle exec ../frontend/node_modules/.bin/cordova platform add ios} )
         end
       end
     end
@@ -45,7 +45,7 @@ namespace :mobile do
     task :android do
       Bundler.with_clean_env do
         Dir.chdir("mobile") do
-          sh *%w{bundle exec ../frontend/node_modules/.bin/cordova platform add android}
+          sh(  *%w{bundle exec ../frontend/node_modules/.bin/cordova platform add android} )
         end
       end
     end
@@ -56,7 +56,7 @@ namespace :mobile do
     def build(platform)
       Bundler.with_clean_env do
         Dir.chdir("mobile") do
-          sh *%W(bundle exec ../frontend/node_modules/.bin/cordova build #{platform})
+          sh(  *%W(bundle exec ../frontend/node_modules/.bin/cordova build #{platform}) )
         end
       end
     end
@@ -75,7 +75,7 @@ namespace :mobile do
     def emulate(platform)
       Bundler.with_clean_env do
         Dir.chdir("mobile") do
-          sh *%W(bundle exec ../frontend/node_modules/.bin/cordova emulate #{platform})
+          sh(  *%W(bundle exec ../frontend/node_modules/.bin/cordova emulate #{platform}) )
         end
       end
     end

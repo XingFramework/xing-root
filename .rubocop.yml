@@ -1,0 +1,66 @@
+# Normally, these are all good metrics, but for complex Rake files, less so.
+inherit_from:
+  .rubocop_todo.yml
+
+Style/AndOr:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/CommandLiteral:
+  Enabled: false
+
+Style/DeprecatedHashMethods:
+  Enabled: false
+
+Style/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/ExtraSpacing:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/PredicateName:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
+
+Style/FileName:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/ColonMethodCall:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - 'spec/**/*'
+    - 'spec_help/**/*'
+    - 'pkg/**/*'

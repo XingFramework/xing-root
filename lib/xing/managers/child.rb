@@ -41,17 +41,6 @@ class ChildManager
     return false
   end
 
-  def wait_until_dead(pilimit)
-    start = Time.now
-    while Time.now - start < limit
-      Process.waitpid(-1, Process::WNOHANG | Process::WUNTRACED)
-      sleep(0.1)
-    end
-    return false
-  rescue SystemCallError # = no children
-    return true
-  end
-
   def wait_all
     Process.waitall
   end

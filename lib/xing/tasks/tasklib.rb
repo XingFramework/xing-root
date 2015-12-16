@@ -3,7 +3,7 @@ require 'mattock'
 module Xing
   module Tasks
     class Tasklib < Mattock::Tasklib
-      def edict_task(name, klass, &block)
+      def edict_task(name, klass, &_block)
         edict = klass.new do |eddie|
           copy_settings_to(eddie)
           yield eddie if block_given?

@@ -21,11 +21,11 @@ module Xing::Utils
       begin_check = /.*(?<begin>\{).*/.match(@import_line)
       end_check = /.*(?<end>\}).*/.match(@import_line)
       if begin_check and !end_check
-        begin
+        until end_check
           @lineno += 1
           read_next
           end_check = /.*(?<end>\}).*/.match(@import_line)
-        end while !end_check
+        end
       end
     end
 

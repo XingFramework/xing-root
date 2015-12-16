@@ -34,7 +34,7 @@ module Xing
             eddie.dir = "backend"
             eddie.shell_cmd = %w{bundle exec rspec}
           end
-          task :full, [:spec_files] => [:check_dependencies, 'frontend:code_structure', :grunt_ci_test, 'backend:setup', :prepare_db] do |t, args|
+          task :full, [:spec_files] => [:check_dependencies, 'frontend:code_structure', :grunt_ci_test, 'backend:setup', :prepare_db] do |_task, args|
             if args[:spec_files]
               full_spec_edict.shell_cmd.push(args[:spec_files])
             end
@@ -46,7 +46,7 @@ module Xing
             copy_settings_to(eddie)
             eddie.dir = "backend"
           end
-          task :responsivity, [:spec_files] => ['backend:setup', :prepare_db] do |t, args|
+          task :responsivity, [:spec_files] => ['backend:setup', :prepare_db] do |_task, args|
             %w{mobile small medium desktop}.each do |size|
               responsivity_edict.shell_cmd = ["bundle", "exec", "rspec", "-o", "tmp/rspec_#{size}.txt"]
               responsivity_edict.env_hash = {'BROWSER_SIZE' => size}
@@ -64,7 +64,7 @@ module Xing
             eddie.dir = "backend"
             eddie.shell_cmd = %w{bundle exec rspec}
           end
-          task :fast, [:spec_files] => ['backend:setup', :prepare_db] do |t, args|
+          task :fast, [:spec_files] => ['backend:setup', :prepare_db] do |_task, args|
             if args[:spec_files]
               fast_edict.shell_cmd.push(args[:spec_files])
             else

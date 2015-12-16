@@ -63,7 +63,7 @@ module Xing::Edicts
         raise "Can't find any executable to launch a browser with."
       end
 
-      run_command( cmd(browser_command, "http://localhost:#{static_server_port}/") ).must_succeed!
+      run_command(cmd(browser_command, "http://localhost:#{static_server_port}/")).must_succeed!
     end
 
     def subprocess_action

@@ -19,33 +19,36 @@ module Xing
       setting :manager
       setting :config_dir, "../frontend"
 
-      def default_configuration
-        @port_offset ||=
-          begin
-            if !ENV['PORT_OFFSET'].nil?
-              ENV['PORT_OFFSET'].to_i.tap do |offset|
-                puts "Shifting server ports by #{offset}"
-              end
-            else
-              0
-            end
+      def get_port_offset
+        if !ENV['PORT_OFFSET'].nil?
+          ENV['PORT_OFFSET'].to_i.tap do |offset|
+            puts "Shifting server ports by #{offset}"
           end
+        else
+          0
+        end
+      end
 
-        @manager ||=
-          begin
-            require 'xing/managers/child'
-            require 'xing/managers/tmux'
-            if Managers::Tmux.available?
-              Managers::TmuxPane.new
-            else
-              ChildManager.new.tap do |mngr|
-                at_exit{ mngr.kill_all }
-              end
+      def choose_output_manager
+        begin
+          require 'xing/managers/child'
+          require 'xing/managers/tmux'
+          if Managers::Tmux.available?
+            Managers::TmuxPane.new
+          else
+            ChildManager.new.tap do |mngr|
+              at_exit{ mngr.kill_all }
             end
-          end.tap do |mgr|
-            puts "Using #{mgr.class.name}"
           end
-          super
+        end.tap do |mgr|
+          puts "Using #{mgr.class.name}"
+        end
+      end
+
+      def default_configuration
+        @port_offset ||= get_port_offset
+        @manager ||= choose_output_manager
+        super
       end
 
       def resolve_configuration
