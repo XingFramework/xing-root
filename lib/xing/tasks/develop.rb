@@ -128,7 +128,10 @@ module Xing
 
               sa.dir = "backend"
               sa.shell_cmd = words
-              sa.env_hash = {"LRD_BACKEND_PORT" => "#{rails_server_port}"}
+              sa.env_hash = {
+                "LRD_BACKEND_PORT" => "#{rails_server_port}", # deprecate for 1.0
+                "XING_BACKEND_PORT" => "#{rails_server_port}"
+              }
             end
           end
 
