@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xing-root (0.0.5)
+    xing-root (0.0.6)
       caliph (~> 0.3)
       edict (< 1.0)
       mattock (~> 0.10)
@@ -73,4 +73,4 @@ DEPENDENCIES
   xing-root!
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
