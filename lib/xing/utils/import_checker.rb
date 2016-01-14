@@ -13,7 +13,7 @@ module Xing::Utils
     end
 
     def is_import_line
-      /\s*import/.match(@import_line)
+      /^\s*import/.match(@import_line)
     end
 
     def skip_to_end_of_import
@@ -34,7 +34,12 @@ module Xing::Utils
     end
 
     def check_empty_match
-      problem "doesn't seem to have a 'from' clause..." if @md.nil?
+      if @md.nil?
+        problem "doesn't seem to have a 'from' clause..."
+        true
+      else
+        false
+      end
     end
 
     def check_structure
@@ -60,16 +65,18 @@ module Xing::Utils
     end
 
     def check(&error_block)
-      initialize_check(error_block)
-      while @lineno < @lines.length
-        read_next
-        if is_import_line
-          skip_to_end_of_import
-          match_line
-          check_empty_match
-          check_structure
+      begin
+        initialize_check(error_block)
+        while @lineno < @lines.length
+          read_next
+          if is_import_line
+            skip_to_end_of_import
+            match_line
+            check_structure if !check_empty_match
+          end
+          @lineno += 1
         end
-        @lineno += 1
+      rescue
       end
     end
   end

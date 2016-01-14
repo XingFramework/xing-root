@@ -51,7 +51,8 @@ module Xing::Edicts
           problems.each{|prob| out_stream.puts "  " + prob.to_s}
           out_stream.puts
         end
-        raise Error, "Problems found in ECMAScript structure"
+        out_stream.puts "Problems found in ECMAScript structure"
+        #raise Error, "Problems found in ECMAScript structure"
       end
     end
 

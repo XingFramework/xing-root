@@ -22,7 +22,9 @@ describe Xing::Edicts::StructureChecker do
     end
 
     it "should report errors" do
-      expect{subject.action}.to raise_error(Xing::Edicts::StructureChecker::Error)
+      subject.action
+      #expect{subject.action}.to raise_error(Xing::Edicts::StructureChecker::Error)
+      expect(stdout.string).to match("Problems found in ECMAScript structure")
       expect(stdout.string).to match(%r{In test-dir/problem.js})
       expect(stdout.string).to match(%r{'from' includes ../})
     end
@@ -35,6 +37,7 @@ describe Xing::Edicts::StructureChecker do
 
     it "should not report errors" do
       expect{subject.action}.not_to raise_error
+      expect(stdout.string).to be_empty
     end
   end
 

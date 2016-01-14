@@ -51,7 +51,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
-    simplecov (0.10.0)
+    simplecov (0.11.1)
       docile (~> 1.1.0)
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
@@ -71,6 +71,3 @@ DEPENDENCIES
   codeclimate-test-reporter
   corundum
   xing-root!
-
-BUNDLED WITH
-   1.11.2
