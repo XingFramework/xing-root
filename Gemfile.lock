@@ -1,10 +1,11 @@
 PATH
   remote: .
   specs:
-    xing-root (0.0.7)
+    xing-root (0.0.8)
       caliph (~> 0.3)
       edict (< 1.0)
       mattock (~> 0.10)
+      xing-dev-assets (> 0, <= 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -37,6 +38,7 @@ GEM
       tilt (> 0)
       valise (~> 1.1.1)
     paint (0.8.7)
+    rack (1.6.4)
     rake (10.4.2)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
@@ -62,6 +64,8 @@ GEM
     thor (0.19.1)
     tilt (2.0.1)
     valise (1.1.4)
+    xing-dev-assets (0.0.1)
+      rack (~> 1.6)
 
 PLATFORMS
   ruby
@@ -71,3 +75,6 @@ DEPENDENCIES
   codeclimate-test-reporter
   corundum
   xing-root!
+
+BUNDLED WITH
+   1.11.2

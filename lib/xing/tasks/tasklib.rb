@@ -8,7 +8,15 @@ module Xing
           copy_settings_to(eddie)
           yield eddie if block_given?
         end
-        edict_task = task name do
+        edict_task = task name do |task, args|
+          set_args = Hash[
+            (args.keys||[]).find_all do |name|
+              !args[name].nil?
+            end.map do |name|
+              [name, args[name]]
+            end
+          ]
+          edict.from_hash(set_args)
           edict.enact
         end
 

@@ -2,6 +2,18 @@ require 'xing/edicts'
 require 'xing/tasks/tasklib'
 
 module Xing
+  module Edicts
+    class Spec < CleanRun
+      setting :spec_targets, "spec/"
+      setting :shell_cmd, %w{bundle exec rspec}
+
+      def action
+        self.shell_cmd += [*spec_targets]
+        super
+      end
+    end
+  end
+
   module Tasks
     class Spec < Tasklib
       default_namespace :spec
@@ -29,17 +41,11 @@ module Xing
             pd.shell_cmd = %w{bundle exec rake db:test:prepare}
           end
 
-          full_spec_edict = Edicts::CleanRun.new do |eddie|
-            copy_settings_to(eddie)
-            eddie.dir = "backend"
-            eddie.shell_cmd = %w{bundle exec rspec}
+          full_spec_task = edict_task :backend_spec, Edicts::Spec do |full_spec|
+            full_spec.dir = "backend"
           end
-          task :full, [:spec_files] => [:check_dependencies, 'frontend:code_structure', :grunt_ci_test, 'backend:setup', :prepare_db] do |_task, args|
-            if args[:spec_files]
-              full_spec_edict.shell_cmd.push(args[:spec_files])
-            end
-            full_spec_edict.enact
-          end
+          full_spec_task.set_arg_names(%i(spec_targets))
+          task :full => [:check_dependencies, 'frontend:code_structure', :grunt_ci_test, 'backend:setup', :prepare_db, :backend_spec]
 
           desc "Run all feature specs, repeating with each browser width as default"
           responsivity_edict = Edicts::CleanRun.new do |eddie|

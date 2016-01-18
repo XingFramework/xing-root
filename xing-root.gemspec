@@ -1,7 +1,7 @@
 Gem::Specification.new do |spec|
   spec.name		= "xing-root"
   #{MAJOR: incompatible}.{MINOR added feature}.{PATCH bugfix}-{LABEL}
-  spec.version		= "0.0.7"
+  spec.version		= "0.0.8"
   author_list = {
     "Judson Lester" => "judson@lrdesign.com",
     "Patricia Ho" => "patricia@lrdesign.com"
@@ -63,6 +63,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency("edict", "< 1.0")
   spec.add_dependency("caliph", "~> 0.3")
   spec.add_dependency("mattock", "~> 0.10")
+  spec.add_dependency("xing-dev-assets", "> 0", "<= 1.0")
 
   #spec.post_install_message = "Thanks for installing my gem!"
 end

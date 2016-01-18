@@ -126,7 +126,7 @@ module Xing
               words << "-p#{static_server_port}" #ok
               words << "static-app.ru"
 
-              sa.dir = "backend"
+              sa.dir = "."
               sa.shell_cmd = words
               sa.env_hash = {
                 "LRD_BACKEND_PORT" => "#{rails_server_port}", # deprecate for 1.0
