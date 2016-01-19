@@ -18,6 +18,12 @@ module Xing
           end
           task :check_dependencies => :bundle_install
 
+          desc "Initialize database"
+          edict_task :db_create, Edicts::CleanRun do |dm|
+            dm.shell_cmd = %w{bundle exec rake db:create}
+          end
+          task :db_create => :bundle_install
+
           desc "Migrate database up to current"
           edict_task :db_migrate, Edicts::CleanRun do |dm|
             dm.shell_cmd = %w{bundle exec rake db:migrate}
@@ -36,6 +42,8 @@ module Xing
             ap.shell_cmd = %w{bundle exec rake assets:precompile}
           end
           task :assets_precompile => [:bundle_install, :db_migrate]
+
+          task :initialize => [:db_create, :db_seed]
 
           task :all => [:db_seed, :assets_precompile]
         end
