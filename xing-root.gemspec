@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
     lib/xing/tasks/tasklib.rb
     lib/xing/tasks/spec.rb
     lib/xing/tasks/develop.rb
+    lib/xing/tasks/initialize.rb
     lib/xing/managers/child.rb
     lib/xing/managers/tmux.rb
     lib/xing/edicts/start-child.rb
@@ -39,6 +40,7 @@ Gem::Specification.new do |spec|
     lib/xing-root.rb
     spec/tasks/frontend_spec.rb
     spec/tasks/develop_spec.rb
+    spec/tasks/initialize_spec.rb
     spec/managers/tmux_spec.rb
     spec/support/file-sandbox.rb
     spec/edicts/start-child_spec.rb
