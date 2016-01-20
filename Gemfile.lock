@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xing-root (0.0.8)
+    xing-root (0.0.9)
       caliph (~> 0.3)
       edict (< 1.0)
       mattock (~> 0.10)
