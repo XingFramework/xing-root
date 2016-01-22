@@ -7,4 +7,4 @@ addons:
   code_climate:
     repo_token: 2cc0d94fbb02626c1a0e7dc1e4c14149d7d61ae940388653e3435f9dc83c3246
 cache: bundler
-script: bundle exec rake ci
+script: bundle exec rake ci --trace
