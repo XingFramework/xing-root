@@ -64,6 +64,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency("caliph", "~> 0.3")
   spec.add_dependency("mattock", "~> 0.10")
   spec.add_dependency("xing-dev-assets", "> 0", "<= 1.0")
-
-  #spec.post_install_message = "Thanks for installing my gem!"
 end

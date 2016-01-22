@@ -41,42 +41,28 @@ module Xing
             pd.shell_cmd = %w{bundle exec rake db:test:prepare}
           end
 
-          full_spec_task = edict_task :backend_spec, Edicts::Spec do |full_spec|
+          edict_task(:backend_spec, {%i(spec_targets) => %w(backend:setup prepare_db)}, Edicts::Spec) do |full_spec|
             full_spec.dir = "backend"
           end
-          full_spec_task.set_arg_names(%i(spec_targets))
           task :full => [:check_dependencies, 'frontend:code_structure', :grunt_ci_test, 'backend:setup', :prepare_db, :backend_spec]
 
-          desc "Run all feature specs, repeating with each browser width as default"
-          responsivity_edict = Edicts::CleanRun.new do |eddie|
-            copy_settings_to(eddie)
-            eddie.dir = "backend"
-          end
-          task :responsivity, [:spec_files] => ['backend:setup', :prepare_db] do |_task, args|
+          namespace :responsivity do
             %w{mobile small medium desktop}.each do |size|
-              responsivity_edict.shell_cmd = ["bundle", "exec", "rspec", "-o", "tmp/rspec_#{size}.txt"]
-              responsivity_edict.env_hash = {'BROWSER_SIZE' => size}
-              if args[:spec_files]
-                responsivity_edict.shell_cmd.push(args[:spec_files])
-              else
-                responsivity_edict.shell_cmd.push('spec/features')
+              edict_task(size, {%i(spec_files) => %w(backend:setup prepare_db)}, Edicts::Spec) do |resp|
+                resp.shell_cmd = ["bundle", "exec", "rspec", "-o", "tmp/rspec_#{size}.txt"]
+                resp.env_hash = {'BROWSER_SIZE' => size}
+                resp.dir = 'backend'
               end
-              responsivity_edict.enact rescue true
             end
           end
 
-          fast_edict = Edicts::CleanRun.new do |eddie|
-            copy_settings_to(eddie)
-            eddie.dir = "backend"
-            eddie.shell_cmd = %w{bundle exec rspec}
-          end
-          task :fast, [:spec_files] => ['backend:setup', :prepare_db] do |_task, args|
-            if args[:spec_files]
-              fast_edict.shell_cmd.push(args[:spec_files])
-            else
-              fast_edict.shell_cmd.push("--tag").push("~type:feature")
-            end
-            fast_edict.enact
+          desc "Run all feature specs, repeating with each browser width as default"
+          task :responsivity, [:spec_files] => %w{responsivity:mobile responsivity:small responsivity:medium responsivity:desktop}
+
+          edict_task(:fast, {%i(spec_targets) => %w(backend:setup prepare_db)}, Edicts::Spec) do |fast_spec|
+            fast_spec.dir = "backend"
+            fast_spec.shell_cmd = %w{bundle exec rspec}
+            fast_spec.spec_targets = %w(--tag ~type:feature)
           end
         end
       end
