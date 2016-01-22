@@ -36,9 +36,7 @@ module Xing
           if false # Managers::Tmux.available?
             Managers::TmuxPane.new
           else
-            ChildManager.new.tap do |mngr|
-              at_exit{ mngr.kill_all }
-            end
+            ChildManager.new
           end
         end.tap do |mgr|
           puts "Using #{mgr.class.name}"

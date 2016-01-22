@@ -3,6 +3,7 @@ class ChildManager
     @child_pids = []
     @parent_pid = Process.pid
     @child_data = {}
+    @kill_all_at_exit = false
   end
   attr_accessor :child_pids, :child_data
 
@@ -19,6 +20,10 @@ class ChildManager
     end
     puts "#{@parent_pid}: #{name} running in pid #{child_pid}"
 
+    unless @kill_all_at_exit
+      at_exit{ kill_all }
+      @kill_all_at_exit = true
+    end
     at_exit { kill_child(child_pid) }
     child_data[child_pid] = ChildRecord.new(name, nil)
     child_pids << child_pid
@@ -46,8 +51,6 @@ class ChildManager
   end
 
   def kill_child(pid)
-    puts "\n#{__FILE__}:#{__LINE__} => #{pid.inspect}"
-
     unless Process.pid == @parent_pid
       puts "#{Process.pid} #@parent_pid Not original parent: not killing"
       return
@@ -94,16 +97,12 @@ class ChildManager
     end
     previous_term_trap = trap "TERM" do
       puts "Trapped TERM once"
-      puts "\n#{__FILE__}:#{__LINE__} => #{previous_term_trap.inspect}"
-      puts "Trapped TERM once"
       if previous_term_trap.is_a? Proc and previous_term_trap.source_location.first == __FILE__
         trap "TERM", previous_term_trap
       else
         trap "TERM", "DEFAULT"
       end
     end
-    puts "\n#{__FILE__}:#{__LINE__} => #{previous_term_trap.inspect}"
     Process::kill("TERM", 0)
-    puts "\n#{__FILE__}:#{__LINE__} => #{:done_killing.inspect}"
   end
 end
