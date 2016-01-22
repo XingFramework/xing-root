@@ -21,6 +21,7 @@ module Xing
         end
 
         def available?
+          puts "\n#{__FILE__}:#{__LINE__} => #{:testing_tmux.inspect}"
           shell.run("which", "tmux").succeeds?
         end
       end
