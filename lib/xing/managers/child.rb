@@ -46,6 +46,8 @@ class ChildManager
   end
 
   def kill_child(pid)
+    puts "\n#{__FILE__}:#{__LINE__} => #{pid.inspect}"
+
     unless Process.pid == @parent_pid
       puts "#{Process.pid} #@parent_pid Not original parent: not killing"
       return
@@ -92,8 +94,16 @@ class ChildManager
     end
     previous_term_trap = trap "TERM" do
       puts "Trapped TERM once"
-      trap "TERM", previous_term_trap
+      puts "\n#{__FILE__}:#{__LINE__} => #{previous_term_trap.inspect}"
+      puts "Trapped TERM once"
+      if previous_term_trap.is_a? Proc and previous_term_trap.source_location.first == __FILE__
+        trap "TERM", previous_term_trap
+      else
+        trap "TERM", "DEFAULT"
+      end
     end
+    puts "\n#{__FILE__}:#{__LINE__} => #{previous_term_trap.inspect}"
     Process::kill("TERM", 0)
+    puts "\n#{__FILE__}:#{__LINE__} => #{:done_killing.inspect}"
   end
 end

@@ -33,7 +33,7 @@ module Xing
         begin
           require 'xing/managers/child'
           require 'xing/managers/tmux'
-          if Managers::Tmux.available?
+          if false # Managers::Tmux.available?
             Managers::TmuxPane.new
           else
             ChildManager.new.tap do |mngr|
