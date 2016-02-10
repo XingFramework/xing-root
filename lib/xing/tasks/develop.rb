@@ -11,21 +11,20 @@ module Xing
 
       default_namespace :develop
 
-      setting :port_offset
+      setting :port_offset, 0
       setting :reload_server_port
       setting :rails_server_port
       setting :mobile_server_port
       setting :static_server_port
       setting :manager
       setting :config_dir, "../frontend"
+      setting :output_manager, :tmux
+      setting :enabled_services, %i(grunt_watch compass_watch sidekiq static_assets rails_server launch_browser)
 
       def get_port_offset
         if !ENV['PORT_OFFSET'].nil?
-          ENV['PORT_OFFSET'].to_i.tap do |offset|
-            puts "Shifting server ports by #{offset}"
-          end
-        else
-          0
+          self.port_offset = Integer(ENV['PORT_OFFSET'])
+          puts "Shifting server ports by #{port_offset}"
         end
       end
 
@@ -43,14 +42,10 @@ module Xing
         end
       end
 
-      def default_configuration
-        @port_offset ||= get_port_offset
-        @manager ||= choose_output_manager
-        super
-      end
-
       def resolve_configuration
         super
+        get_port_offset
+        self.manager = choose_output_manager if field_unset?(:manager)
         self.reload_server_port = DEFAULT_RELOAD_PORT + port_offset if field_unset?(:reload_server_port)
         self.rails_server_port  = DEFAULT_RAILS_PORT  + port_offset if field_unset?(:rails_server_port)
         self.mobile_server_port = DEFAULT_MOBILE_PORT + port_offset if field_unset?(:mobile_server_port)
@@ -137,7 +132,7 @@ module Xing
             manager.wait_all
           end
 
-          task :startup => [:grunt_watch, :compass_watch, :sidekiq, :static_assets, :rails_server, :launch_browser]
+          task :startup => enabled_services
 
           task :all => [:startup, :wait]
         end
